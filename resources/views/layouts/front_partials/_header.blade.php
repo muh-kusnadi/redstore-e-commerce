@@ -12,7 +12,14 @@
                   <li><a href="#testimonial">Testimonial</a></li>
                @endif
                <li><a href="#footer">Contact</a></li>
-               <li><a href="{{ route('auth.index') }}">Account</a></li>
+               @if (!Auth::check())
+                  <li><a href="{{ route('auth.index') }}">Login/Register</a></li>
+               @else
+                  <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a></li>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                     @csrf
+                  </form>
+               @endif
             </ul>
          </nav>
          <a href="{{ route('cart.index') }}"><img src="{{ asset('assets/images/cart.png') }}" alt="cart" width="30px" height="30px"></a>
