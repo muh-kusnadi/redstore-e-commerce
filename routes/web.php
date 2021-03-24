@@ -29,3 +29,6 @@ Route::get('/products', [ProductPageController::class, 'index'])->name('products
 Route::get('/product/{id}', [ProductPageController::class, 'detail'])->name('product.detail');
 Route::get('/cart', [CartPageController::class, 'index'])->name('cart.index');
 Route::get('/authentication', [AuthPageController::class, 'index'])->name('auth.index');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
