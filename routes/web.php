@@ -19,16 +19,16 @@ use App\Http\Controllers\AuthPageController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('layouts.master_front');
-// });
-
 Route::get('/', [FrontPageController::class, 'index'])->name('front.index');
 
 Route::get('/products', [ProductPageController::class, 'index'])->name('products.index');
 Route::get('/product/{id}', [ProductPageController::class, 'detail'])->name('product.detail');
 Route::get('/cart', [CartPageController::class, 'index'])->name('cart.index');
-Route::get('/authentication', [AuthPageController::class, 'index'])->name('auth.index');
-Auth::routes();
+
+//auth
+Route::get('/authentication', [AuthPageController::class, 'index'])->name('auth.index')->middleware('guest');
+Route::post('/authentication/register', [AuthPageController::class, 'postRegister'])->name('auth.register');
+Route::post('/authentication/login', [AuthPageController::class, 'postLogin'])->name('auth.login');
+Route::post('/authentication/logout', [AuthPageController::class, 'postLogout'])->name('auth.logout');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
