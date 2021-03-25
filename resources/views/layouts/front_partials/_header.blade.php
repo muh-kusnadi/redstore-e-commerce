@@ -15,8 +15,8 @@
                @if (!Auth::check())
                   <li><a href="{{ route('auth.index') }}">Login/Register</a></li>
                @else
-                  <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a></li>
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  <li><a href="{{ route('auth.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a></li>
+                  <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" class="d-none">
                      @csrf
                   </form>
                @endif
