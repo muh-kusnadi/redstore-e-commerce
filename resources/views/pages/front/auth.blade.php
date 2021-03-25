@@ -14,57 +14,61 @@
                         <span onclick="login()">Login</span>
                         <span onclick="register()">Register</span>
                         <hr id="indicator">
-                     </div>
+                    </div>
 
-                     <form id="loginForm" method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <input 
-                            id="email" 
-                            type="email" 
-                            name="email"
-                            value="{{ old('email') }}"
-                            placeholder="Username"
-                            required autocomplete="email" autofocus>
-                        <input 
-                            id="password" 
-                            type="password" 
-                            placeholder="Password"
-                            name="password"
-                            required autocomplete="current-password">
-                        <button type="submit" class="btn">Login</button>
-                        <a href="">Forgot Password</a>
-                     </form>
+                    {{-- @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div>{{$error}}</div>
+                        @endforeach
+                    @endif --}}
 
-                     <form id="registerForm" method="POST" action="{{ route('register') }}">
-                        @csrf
-                        <input 
-                            type="text" 
-                            placeholder="Name" 
-                            id="name"
-                            name="name" 
-                            value="{{ old('name') }}" 
-                            required autocomplete="name" autofocus>
-                        <input 
-                            type="email" 
-                            placeholder="Email" 
-                            id="email"
-                            name="email" 
-                            value="{{ old('email') }}" 
-                            required autocomplete="email">
-                        <input 
-                            type="password" 
-                            placeholder="Password"
-                            id="password"
-                            name="password" 
-                            required autocomplete="new-password">
-                        <input 
-                            type="password" 
-                            placeholder="Retype Password" 
-                            id="password-confirm"
-                            name="password_confirmation" 
-                            required autocomplete="new-password">
-                        <button type="submit" class="btn">Register</button>
-                     </form>
+                    <form id="loginForm" method="POST" action="{{ route('auth.login') }}">
+                    @csrf
+                    <input 
+                        id="email" 
+                        type="email" 
+                        name="email"
+                        value="{{ old('email') }}"
+                        placeholder="E-Mail"
+                        required autocomplete="email" autofocus>
+                    <input 
+                        id="password" 
+                        type="password" 
+                        placeholder="Password"
+                        name="password"
+                        required autocomplete="current-password">
+                    <button type="submit" class="btn">Login</button>
+                    {{-- <a href="">Forgot Password</a> --}}
+                    </form>
+
+                    <form id="registerForm" method="POST" action="{{ route('auth.register') }}">
+                    @csrf
+                    <input 
+                        type="text" 
+                        placeholder="Name" 
+                        id="name"
+                        name="name" 
+                        value="{{ old('name') }}" 
+                        autocomplete="name" autofocus>
+                    <input 
+                        type="email" 
+                        placeholder="Email" 
+                        id="email"
+                        name="email" 
+                        value="{{ old('email') }}" 
+                        autocomplete="email">
+                    <input 
+                        type="password" 
+                        placeholder="Password"
+                        id="password"
+                        name="password">
+                    <input 
+                        type="password" 
+                        placeholder="Retype Password" 
+                        id="password-confirm"
+                        name="password_confirmation">
+                    <button type="submit" class="btn">Register</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -82,14 +86,14 @@
     var indicator = document.getElementById("indicator");
 
     function register() {
-        registerForm.style.transform = "translateX(0px)";
-        loginForm.style.transform = "translateX(0px)";
+        registerForm.style.transform = "translateX(-300px)";
+        loginForm.style.transform = "translateX(-300px)";
         indicator.style.transform = "translateX(100px)";
     }
 
     function login() {
-        registerForm.style.transform = "translateX(300px)";
-        loginForm.style.transform = "translateX(300px)";
+        registerForm.style.transform = "translateX(0px)";
+        loginForm.style.transform = "translateX(0px)";
         indicator.style.transform = "translateX(0px)";
     }
 </script>
