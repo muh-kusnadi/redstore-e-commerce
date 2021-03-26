@@ -22,7 +22,9 @@
                @endif
             </ul>
          </nav>
-         <a href="{{ route('cart.index') }}"><img src="{{ asset('assets/images/cart.png') }}" alt="cart" width="30px" height="30px"></a>
+         @if (Auth::check())
+            <a href="{{ route('cart.index') }}"><img src="{{ asset('assets/images/cart.png') }}" alt="cart" width="30px" height="30px"></a>
+         @endif
          <img src="{{ asset('assets/images/menu.png') }}" alt="menu" class="menu-icon" onclick="menuToggle()">
       </div>
       @if (isset($landing))
