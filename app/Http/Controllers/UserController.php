@@ -19,13 +19,15 @@ class UserController extends Controller
         if($data) {
             return response()->json([
                 'success'   => true,
-                'data'      => $data
+                'data'      => $data,
+                'message'   => 'Data successfully retrieved'
             ], 200);
         }
 
         return response()->json([
             'success'   => false,
-            'data'      => []
+            'data'      => [],
+            'message'   => 'Something went wrong'
         ], 400);
     }
 }
