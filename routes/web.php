@@ -23,7 +23,9 @@ Route::get('/', [FrontPageController::class, 'index'])->name('front.index');
 
 Route::get('/products', [ProductPageController::class, 'index'])->name('products.index');
 Route::get('/product/{id}', [ProductPageController::class, 'detail'])->name('product.detail');
-Route::get('/cart', [CartPageController::class, 'index'])->name('cart.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cart', [CartPageController::class, 'index'])->name('cart.index');
+});
 
 //auth
 Route::get('/authentication', [AuthPageController::class, 'index'])->name('auth.index')->middleware('guest');
