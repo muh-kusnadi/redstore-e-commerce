@@ -38,7 +38,6 @@ class AuthPageController extends Controller
 
     public function postRegister(Request $request)
     {
-        $data = $request->all();
         
         // $validated = $request->validate([
         //     'name'                  => 'required',
@@ -46,11 +45,12 @@ class AuthPageController extends Controller
         //     'password'              => 'required',
         //     'password_confirmation' => 'required|same:password',
         // ]);
-
-        // if($validated->fails()) {
-        //     redirect()->back()->withErrors($validated->errors());
-        // }
         
+        // if($validated->fails()) {
+            //     redirect()->back()->withErrors($validated->errors());
+            // }
+                
+        $data = $request->all();
         $data['password'] = Hash::make($data['password']);
 
         $user = $this->user->create($data);
