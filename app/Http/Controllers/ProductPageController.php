@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Validator;
 use Image;
 use File;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class ProductPageController extends Controller
 {
