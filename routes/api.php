@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //route
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ use App\Http\Controllers\UserController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/product/store', [ProductPageController::class, 'store']);
 
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/users/get-all', [UserController::class, 'getAll']);
