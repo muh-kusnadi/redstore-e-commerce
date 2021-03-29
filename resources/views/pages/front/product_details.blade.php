@@ -5,27 +5,20 @@
 <div class="small-container single-product">
     <div class="row">
         <div class="col-2">
-            <img src="{{ asset('assets/images/gallery-1.jpg') }}" alt="gallery-1" width="100%" id="productImg">
+            <img src="{{ asset('storage/assets/images/gallery/600x600').'/'.$product->imageUploaded[0]->name }}" alt="{{ $product->slug }}" width="100%" id="productImg">
 
             <div class="small-img-row">
-                <div class="small-img-col">
-                    <img src="{{ asset('assets/images/gallery-1.jpg') }}" alt="gallery-1" width="100%" class="small-img">
-                </div>
-                <div class="small-img-col">
-                    <img src="{{ asset('assets/images/gallery-2.jpg') }}" alt="gallery-2" width="100%" class="small-img">
-                </div>
-                <div class="small-img-col">
-                    <img src="{{ asset('assets/images/gallery-3.jpg') }}" alt="gallery-3" width="100%" class="small-img">
-                </div>
-                <div class="small-img-col">
-                    <img src="{{ asset('assets/images/gallery-4.jpg') }}" alt="gallery-4" width="100%" class="small-img">
-                </div>
+                @foreach ($product->imageUploaded as $item)
+                    <div class="small-img-col">
+                        <img src="{{ asset('storage/assets/images/gallery/600x600').'/'.$item->name }}" alt="{{ $item->name }}" width="100%" class="small-img">
+                    </div>
+                @endforeach
             </div>
 
         </div>
         <div class="col-2">
             <p>Home / T-Shirt</p>
-            <h1>Red Printd T-Shirt by HRX</h1>
+            <h1>{{ $product->title }}</h1>
             <h4>$50.00</h4>
             <select>
                 <option>Select Size</option>
@@ -40,7 +33,7 @@
             
             <h3>Product Details <i class="fa fa-indent"></i></h3>
             <br>
-            <p>Give your summer wardrobe a style upgrade with the HRX Men's Active T-shirt. Team it with a pair of shorts for your morning workout or a denims for an evening out with the guys.</p>
+            <p>{{ $product->description }}</p>
         </div>
     </div>
 </div>
