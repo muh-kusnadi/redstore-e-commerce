@@ -80,8 +80,8 @@
     <div class="row">
       @foreach ($lastestProduct as $item)
          <div class="col-4">
-            <img src="{{ asset('storage/assets/images/gallery/1080x1440').'/'.$item->imageUploaded[0]->name }}" alt="{{ $item->slug }}">
-            <h4>{{ $item->title }}</h4>
+            <a href="{{ route('product.detail', $item->id) }}"><img src="{{ asset('storage/assets/images/gallery/1080x1440').'/'.$item->imageUploaded[0]->name }}" alt="{{ $item->slug }}"></a>
+            <a href="{{ route('product.detail', $item->id) }}"><h4>{{ $item->title }}</h4></a>
             <div class="rating">
                @for ($i = 0; $i < 5; ++$i)
                   <i class="fa fa-star{{ $item->rating <= $i ? '-o' : '' }}"></i>
