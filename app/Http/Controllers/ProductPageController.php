@@ -38,7 +38,11 @@ class ProductPageController extends Controller
 
     public function detail($id)
     {
-        return view('pages.front.product_details');
+        $product = $this->product->findOrFail($id);
+
+        return view('pages.front.product_details', [
+            'product' => $product
+        ]);
     }
 
     public function store(Request $request)
