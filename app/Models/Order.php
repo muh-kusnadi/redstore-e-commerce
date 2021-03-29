@@ -11,7 +11,7 @@ class Order extends Model
 
     protected $table = 'orders';
 
-    protected $fillable = ['product_id', 'user_id', 'quantity', 'total', 'is_checkout'];
+    protected $fillable = ['product_id', 'user_id', 'quantity', 'size','total', 'is_checkout'];
 
     public function user()
     {
