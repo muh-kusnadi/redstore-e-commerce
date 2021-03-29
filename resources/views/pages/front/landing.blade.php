@@ -78,102 +78,18 @@
     <!-- start latest products -->
     <h2 class="title">Latest Products</h2>
     <div class="row">
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-5.jpg') }}" alt="product-5">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-6.jpg') }}" alt="product-6">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-half-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-7.jpg') }}" alt="product-7">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-8.jpg') }}" alt="product-8">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-9.jpg') }}" alt="product-9">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-10.jpg') }}" alt="product-10">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-half-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-11.jpg') }}" alt="product-11">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
-       <div class="col-4">
-          <img src="{{ asset('assets/images/product-12.jpg') }}" alt="product-12">
-          <h4>Red Printed T-shirt</h4>
-          <div class="rating">
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star"></i>
-             <i class="fa fa-star-o"></i>
-          </div>
-          <p>$50.00</p>
-       </div>
+      @foreach ($lastestProduct as $item)
+         <div class="col-4">
+            <img src="{{ asset('storage/assets/images/gallery/1080x1440').'/'.$item->imageUploaded[0]->name }}" alt="{{ $item->slug }}">
+            <h4>{{ $item->title }}</h4>
+            <div class="rating">
+               @for ($i = 0; $i < 5; ++$i)
+                  <i class="fa fa-star{{ $item->rating <= $i ? '-o' : '' }}"></i>
+               @endfor
+            </div>
+            <p>${{ $item->price }}</p>
+         </div>
+       @endforeach
     </div>
     <!-- end latest products -->
  </div>
