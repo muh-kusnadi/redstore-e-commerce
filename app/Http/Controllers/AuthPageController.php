@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-
 class AuthPageController extends Controller
 {
     public function __construct(User $user)
@@ -29,6 +28,14 @@ class AuthPageController extends Controller
             $resArr['name']     = $user->name;
 
             Log::info(['resArr' => $resArr]);
+
+            if (session()->has('user_token')){
+                session()->put('user_token', $resArr['token']);
+            } else {
+                session([
+                    'user_token'    => $resArr['token']
+                ]);
+            }
 
             return redirect()->route('front.index');
         }
@@ -62,17 +69,20 @@ class AuthPageController extends Controller
 
             Log::info(['resArr' => $resArr]);
 
+            if (session()->has('user_token')){
+                session()->put('user_token', $resArr['token']);
+            } else {
+                session([
+                    'user_token'    => $resArr['token']
+                ]);
+            }
+
             Auth::login($user);
 
             return redirect()->route('front.index');
         }
 
         return redirect()->back()->withErrors('Failed to Register!');
-    }
-
-    public function roar()
-    {
-        return 'test';
     }
 
     public function postLogout(Request $request)
