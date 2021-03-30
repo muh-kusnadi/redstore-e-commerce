@@ -26,6 +26,8 @@ Route::get('/product/{id}', [ProductPageController::class, 'detail'])->name('pro
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartPageController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartPageController::class, 'cart'])->name('cart.post');
+    Route::delete('/cart/remove/{id}', [CartPageController::class, 'removefromCart'])->name('cart.remove');
+    Route::post('/cart/checkout', [CartPageController::class, 'checkout'])->name('cart.checkout');
 });
 
 //auth
