@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Order;
 use Auth;
 use Illuminate\Support\Facades\Http;
+use Ramsey\Uuid\Uuid;
 
 class CartPageController extends Controller
 {
@@ -28,6 +29,15 @@ class CartPageController extends Controller
         $data = $request->except('_token');
         $data['user_id'] = Auth::user()->id;
 
+        //check cart
+        $cart = $this->order->cart(Auth::id());
+        //set uuid value
+        if(count($cart) > 0) {
+            $data['uuid'] = $cart[0]->uuid;
+        } else {
+            $data['uuid'] = Uuid::uuid4();
+        }
+
         $post = Http::withToken(session()->get('user_token'))->withHeaders([
             'Accept' => 'application/json'
         ])->post('http://redstore-e-commerce.test/api/cart/add', $data);
@@ -39,64 +49,29 @@ class CartPageController extends Controller
         return response()->json($post->json(), 400);
     }
 
-    //api
-    public function addToCart(Request $request)
+    public function removefromCart($id)
     {
-        $data = $request->except('_token');
+        $post = Http::withToken(session()->get('user_token'))->withHeaders([
+            'Accept' => 'application/json'
+        ])->delete('http://redstore-e-commerce.test/api/cart/remove/'.$id);
 
-        $validators = Validator::make($data, [
-            'product_id'    => 'required',
-            'user_id'       => 'required',
-            'quantity'      => 'required|integer|min:1',
-            'total'         => 'required|integer',
-            'size'          => 'required',
-            'is_checkout'   => 'required'
-        ]);
-
-        if($validators->fails()){
-            return response()->json([
-                'success'   => false,
-                'data'      => [],
-                'message'   => $validators->errors()->all()
-            ], 400);
+        if(json_decode($post->body())->success) {
+            return response()->json($post->body(), 200);
         }
 
-        $store = $this->order->create($data);
-
-        if($store) {
-            return response()->json([
-                'success'   => true,
-                'data'      => $store,
-                'message'   => 'Successfully add to cart'
-            ], 200);
-        }
-
-        return response()->json([
-            'success'   => false,
-            'data'      => [],
-            'message'   => 'Failed add to cart'
-        ], 400);
+        return response()->json($post->json(), 400);
     }
 
     public function checkout(Request $request)
     {
-        $find = $this->order->find($request['id']);
+        $post = Http::withToken(session()->get('user_token'))->withHeaders([
+            'Accept' => 'application/json'
+        ])->post('http://redstore-e-commerce.test/api/cart/checkout', $request->except('_token'));
 
-        if(!$find) {
-            return response()->json([
-                'success'   => false,
-                'data'      => [],
-                'message'   => 'Data order not found'
-            ], 400);
-        } 
+        if(json_decode($post->body())->success) {
+            return response()->json($post->body(), 200);
+        }
 
-        $find->is_checkout = 1;
-        $find->save();
-
-        return response()->json([
-            'success'   => true,
-            'data'      => $find,
-            'message'   => 'Successfully checkout data'
-        ], 200);
+        return response()->json($post->json(), 400);
     }
 }
