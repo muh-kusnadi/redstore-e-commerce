@@ -1,4 +1,9 @@
 @extends('layouts.master_front')
+
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+@endpush
+
 @section('content')
 
 <!-- start single product details -->
@@ -16,25 +21,35 @@
             </div>
 
         </div>
-        <div class="col-2">
-            <p>Home / T-Shirt</p>
-            <h1>{{ $product->title }}</h1>
-            <h4>$50.00</h4>
-            <select>
-                <option>Select Size</option>
-                <option>XXL</option>
-                <option>XL</option>
-                <option>Large</option>
-                <option>Medium</option>
-                <option>Small</option>
-            </select>
-            <input type="number" value="1">
-            <a href="" class="btn">Add To Cart</a>
-            
-            <h3>Product Details <i class="fa fa-indent"></i></h3>
-            <br>
-            <p>{{ $product->description }}</p>
-        </div>
+        {{-- <form id="formAddToCart"> --}}
+            {{-- @csrf --}}
+            <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+            <input type="hidden" id="price" name="price" value="{{ $product->price }}">
+            <div class="col-2">
+                <p>Home / T-Shirt</p>
+                <h1>{{ $product->title }}</h1>
+                <h4 class="totalPrice"></h4>
+                <select name="size" id="size" required="required">
+                    <option value="S">Small (S)</option>
+                    <option value="M">Medium (M)</option>
+                    <option value="L">Large (L)</option>
+                    <option value="XL">XL (XL)</option>
+                    <option value="XXL">XXL (XXL)</option>
+                </select>
+                <input 
+                    type="number" 
+                    name="quantity"
+                    id="quantity"
+                    value="1" 
+                    min="1" 
+                    onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+                <a href="#" class="btn" id="addToCart">Add To Cart</a>
+                
+                <h3>Product Details <i class="fa fa-indent"></i></h3>
+                <br>
+                <p>{{ $product->description }}</p>
+            </div>
+        {{-- </form> --}}
     </div>
 </div>
 <!-- end single product details -->
@@ -123,5 +138,62 @@
     smallImg[3].onclick = function () {
         productImg.src = smallImg[3].src;
     }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+$(document).ready(function() {
+    
+    let product_id = $('#product_id').val();
+    let quantity = $('#quantity').val();
+    let size = $('#size').val();
+    let is_checkout = 0;
+    let price = $('#price').val();
+
+    $('h4.totalPrice').text('$'+setTotal(price, quantity)+'.00');
+
+    $('#addToCart').on('click', function(e) {
+        e.preventDefault();
+        let data = {
+            product_id: product_id,
+            quantity: quantity,
+            size: size,
+            total: setTotal(price, quantity),
+            is_checkout: is_checkout,
+            _token: "{{ csrf_token() }}",
+        };
+
+        $.ajax({
+            url: '{{ route("cart.post") }}',
+            type: "POST",
+            data: data,
+            success: function(res) {
+                let response = JSON.parse(res)
+                console.log(response)
+
+                toastr.success(response.message)
+            },
+            error : function(err) {
+                if(Array.isArray(err.responseJSON.message)){
+                    err.responseJSON.message.forEach(function(v) {
+                        toastr.error(v)
+                    })
+                } else {
+                    toastr.error(err.responseJSON.message)
+                }
+            }
+        })
+    })
+
+    $('#quantity').on('change', function(e) {
+        quantity = $(this).val()
+        $('h4.totalPrice').text('$'+setTotal(price, quantity)+'.00');
+    })
+})
+
+function setTotal(price, quantity)
+{
+    return price * quantity;
+}
 </script>
 @endpush
