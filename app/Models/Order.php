@@ -11,7 +11,7 @@ class Order extends Model
 
     protected $table = 'orders';
 
-    protected $fillable = ['product_id', 'user_id', 'quantity', 'size','total', 'is_checkout'];
+    protected $fillable = ['uuid', 'product_id', 'user_id', 'quantity', 'size','total', 'is_checkout'];
 
     public function user()
     {
@@ -20,7 +20,7 @@ class Order extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->with('imageUploaded');
     }
 
     public function cart($user_id)
@@ -28,6 +28,6 @@ class Order extends Model
         return $this->where([
             'user_id'       => $user_id,
             'is_checkout'   => 0
-        ])->get();
+        ])->with('product')->get();
     }
 }
