@@ -87,7 +87,7 @@
                   <i class="fa fa-star{{ $item->rating <= $i ? '-o' : '' }}"></i>
                @endfor
             </div>
-            <p>${{ $item->price }}</p>
+            <p>${{ $item->price }}.00</p>
          </div>
        @endforeach
     </div>
