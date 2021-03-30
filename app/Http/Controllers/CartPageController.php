@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Order;
+use Auth;
+use Illuminate\Support\Facades\Http;
 
 class CartPageController extends Controller
 {
@@ -15,9 +17,29 @@ class CartPageController extends Controller
 
     public function index()
     {
-        return view('pages.front.cart');
+        $cart = $this->order->cart(Auth::id());
+        return view('pages.front.cart', [
+            'cart'      => $cart
+        ]);
     }
 
+    public function cart(Request $request)
+    {
+        $data = $request->except('_token');
+        $data['user_id'] = Auth::user()->id;
+
+        $post = Http::withToken(session()->get('user_token'))->withHeaders([
+            'Accept' => 'application/json'
+        ])->post('http://redstore-e-commerce.test/api/cart/add', $data);
+
+        if(json_decode($post->body())->success) {
+            return response()->json($post->body(), 200);
+        }
+
+        return response()->json($post->json(), 400);
+    }
+
+    //api
     public function addToCart(Request $request)
     {
         $data = $request->except('_token');
@@ -27,6 +49,7 @@ class CartPageController extends Controller
             'user_id'       => 'required',
             'quantity'      => 'required|integer|min:1',
             'total'         => 'required|integer',
+            'size'          => 'required',
             'is_checkout'   => 'required'
         ]);
 
@@ -34,7 +57,7 @@ class CartPageController extends Controller
             return response()->json([
                 'success'   => false,
                 'data'      => [],
-                'message'   => $validators->errors()
+                'message'   => $validators->errors()->all()
             ], 400);
         }
 
