@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 //route
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductPageController;
-use App\Http\Controllers\CartPageController;
+use App\Http\Controllers\API\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +28,7 @@ Route::post('/product/store', [ProductPageController::class, 'store']);
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/users/get-all', [UserController::class, 'getAll']);
 
-    Route::post('/cart/add', [CartPageController::class, 'addToCart']);
-    Route::post('/cart/checkout', [CartPageController::class, 'checkout']);
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::post('/cart/checkout', [CartController::class, 'checkout']);
+    Route::delete('/cart/remove/{id}', [CartController::class, 'removefromCart']);
 });
