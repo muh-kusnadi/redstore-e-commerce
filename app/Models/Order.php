@@ -22,4 +22,12 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function cart($user_id)
+    {
+        return $this->where([
+            'user_id'       => $user_id,
+            'is_checkout'   => 0
+        ])->get();
+    }
 }
