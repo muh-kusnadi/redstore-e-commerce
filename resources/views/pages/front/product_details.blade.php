@@ -29,7 +29,7 @@
                 <p>Home / T-Shirt</p>
                 <h1>{{ $product->title }}</h1>
                 <h4 class="totalPrice"></h4>
-                <select name="size" id="size" required="required">
+                <select name="size" id="size">
                     <option value="S">Small (S)</option>
                     <option value="M">Medium (M)</option>
                     <option value="L">Large (L)</option>
@@ -146,7 +146,7 @@ $(document).ready(function() {
     
     let product_id = $('#product_id').val();
     let quantity = $('#quantity').val();
-    let size = $('#size').val();
+    let size = $('#size option:selected').val();
     let is_checkout = 0;
     let price = $('#price').val();
 
@@ -186,8 +186,12 @@ $(document).ready(function() {
     })
 
     $('#quantity').on('change', function(e) {
-        quantity = $(this).val()
+        quantity = $(this).val();
         $('h4.totalPrice').text('$'+setTotal(price, quantity)+'.00');
+    })
+
+    $('#size').on('change', function(e) {
+        size = $(this).val();
     })
 })
 
