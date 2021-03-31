@@ -49,14 +49,6 @@ class ProductPageController extends Controller
     {
         $data = $request->all();
 
-        if(count($data['image']) > 4) {
-            return response()->json([
-                'success'   => false,
-                'data'      => [],
-                'message'   => 'Uploaded images must not be more than 4'
-            ], 400);
-        }
-
         $validators = Validator::make($data, [
             'title'             => 'required',
             'description'       => 'required|min:5',
@@ -69,7 +61,15 @@ class ProductPageController extends Controller
             return response()->json([
                 'success'   => false,
                 'data'      => [],
-                'message'   => $validators->errors()
+                'message'   => $validators->errors()->all()
+            ], 400);
+        }
+
+        if(count($data['image']) > 4) {
+            return response()->json([
+                'success'   => false,
+                'data'      => [],
+                'message'   => 'Uploaded images must not be more than 4'
             ], 400);
         }
         
