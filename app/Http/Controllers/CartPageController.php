@@ -40,7 +40,7 @@ class CartPageController extends Controller
 
         $post = Http::withToken(session()->get('user_token'))->withHeaders([
             'Accept' => 'application/json'
-        ])->post('http://redstore-e-commerce.test/api/cart/add', $data);
+        ])->post(env('APP_URL').'api/cart/add', $data);
 
         if(json_decode($post->body())->success) {
             return response()->json($post->body(), 200);
@@ -53,7 +53,7 @@ class CartPageController extends Controller
     {
         $post = Http::withToken(session()->get('user_token'))->withHeaders([
             'Accept' => 'application/json'
-        ])->delete('http://redstore-e-commerce.test/api/cart/remove/'.$id);
+        ])->delete(env('APP_URL').'api/cart/remove/'.$id);
 
         if(json_decode($post->body())->success) {
             return response()->json($post->body(), 200);
@@ -66,7 +66,7 @@ class CartPageController extends Controller
     {
         $post = Http::withToken(session()->get('user_token'))->withHeaders([
             'Accept' => 'application/json'
-        ])->post('http://redstore-e-commerce.test/api/cart/checkout', $request->except('_token'));
+        ])->post(env('APP_URL').'api/cart/checkout', $request->except('_token'));
 
         if(json_decode($post->body())->success) {
             return response()->json($post->body(), 200);
