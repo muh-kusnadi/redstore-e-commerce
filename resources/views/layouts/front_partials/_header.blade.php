@@ -1,4 +1,4 @@
-@if (isset($headerColor)) <div class="header"> @endif
+@if (isset($headerColor) && $headerColor == true) <div class="header"> @endif
    <div class="container">
       <div class="navbar">
          <div class="logo">
@@ -8,7 +8,7 @@
             <ul id="MenuItems">
                <li><a href="{{ route('front.index') }}">Home</a></li>
                <li><a href="{{ route('products.index') }}">Products</a></li>
-               @if (isset($landing))
+               @if (isset($landing) && $landing == true)
                   <li><a href="#testimonial">Testimonial</a></li>
                @endif
                <li><a href="#footer">Contact</a></li>
@@ -27,7 +27,7 @@
          @endif
          <img src="{{ asset('assets/images/menu.png') }}" alt="menu" class="menu-icon" onclick="menuToggle()">
       </div>
-      @if (isset($landing))
+      @if (isset($landing) && $landing == true)
       <div class="row">
          <div class="col-2">
             <h1>Give Your Workout<br>A New Style!</h1>
@@ -40,4 +40,4 @@
       </div>
       @endif
    </div>
-@if (isset($headerColor)) </div> @endif
+@if (isset($headerColor) && $headerColor == true) </div> @endif
