@@ -42,8 +42,8 @@ class CartPageController extends Controller
             'Accept' => 'application/json'
         ])->post(env('APP_URL').'api/cart/add', $data);
 
-        if(json_decode($post->body())->success) {
-            return response()->json($post->body(), 200);
+        if(json_decode($post->getStatusCode()) == 200) {
+            return response()->json($post->body(), $post->getStatusCode());
         }
 
         return response()->json($post->json(), 400);
@@ -55,8 +55,8 @@ class CartPageController extends Controller
             'Accept' => 'application/json'
         ])->delete(env('APP_URL').'api/cart/remove/'.$id);
 
-        if(json_decode($post->body())->success) {
-            return response()->json($post->body(), 200);
+        if(json_decode($post->getStatusCode()) == 200) {
+            return response()->json($post->body(), $post->getStatusCode());
         }
 
         return response()->json($post->json(), 400);
@@ -68,8 +68,8 @@ class CartPageController extends Controller
             'Accept' => 'application/json'
         ])->post(env('APP_URL').'api/cart/checkout', $request->except('_token'));
 
-        if(json_decode($post->body())->success) {
-            return response()->json($post->body(), 200);
+        if(json_decode($post->getStatusCode()) == 200) {
+            return response()->json($post->body(), $post->getStatusCode());
         }
 
         return response()->json($post->json(), 400);
