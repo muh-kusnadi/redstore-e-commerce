@@ -46,7 +46,7 @@ class CartPageController extends Controller
             return response()->json($post->body(), $post->getStatusCode());
         }
 
-        return response()->json($post->json(), 400);
+        return response()->json($post->json(), $post->getStatusCode());
     }
 
     public function removefromCart($id)
@@ -59,7 +59,7 @@ class CartPageController extends Controller
             return response()->json($post->body(), $post->getStatusCode());
         }
 
-        return response()->json($post->json(), 400);
+        return response()->json($post->json(), $post->getStatusCode());
     }
 
     public function checkout(Request $request)
@@ -72,6 +72,6 @@ class CartPageController extends Controller
             return response()->json($post->body(), $post->getStatusCode());
         }
 
-        return response()->json($post->json(), 400);
+        return response()->json($post->json(), $post->getStatusCode());
     }
 }
